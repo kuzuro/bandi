@@ -26,7 +26,7 @@ internal sealed class InstallPromptForm : Form
 
         Icon? appIcon = Icon.ExtractAssociatedIcon(Environment.ProcessPath ?? string.Empty);
 
-        Text = "Bandi - 시작 옵션";
+        Text = "bandi - 시작 옵션";
         Icon = appIcon;
         FormBorderStyle = FormBorderStyle.FixedDialog;
         MaximizeBox = false;
@@ -47,7 +47,7 @@ internal sealed class InstallPromptForm : Form
 
         Controls.Add(new Label
         {
-            Text = "Bandi 실행 방식을 선택해 주세요",
+            Text = "bandi 실행 방식을 선택해 주세요",
             Font = new Font("맑은 고딕", 13f, FontStyle.Bold),
             ForeColor = TextPrimary,
             Location = new Point(72, 16),
@@ -150,7 +150,7 @@ internal sealed class InstallPromptForm : Form
         {
             MessageBox.Show(
                 $"설치 중 오류가 발생했습니다.\n{error}",
-                "Bandi - 설치 오류",
+                "bandi - 설치 오류",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
             return;

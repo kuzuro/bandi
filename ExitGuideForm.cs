@@ -18,7 +18,7 @@ internal sealed class ExitGuideForm : Form
 
         Icon? appIcon = Icon.ExtractAssociatedIcon(Environment.ProcessPath ?? string.Empty);
 
-        Text = "Bandi - 사용 및 종료 방법";
+        Text = "bandi - 사용 및 종료 방법";
         Icon = appIcon;
         FormBorderStyle = FormBorderStyle.FixedDialog;
         MaximizeBox = false;
@@ -48,7 +48,7 @@ internal sealed class ExitGuideForm : Form
 
         Controls.Add(new Label
         {
-            Text = "작업 표시줄 오른쪽 아래 Bandi 아이콘으로 설정하거나 종료할 수 있습니다.",
+            Text = "작업 표시줄 오른쪽 아래 bandi 아이콘으로 설정하거나 종료할 수 있습니다.",
             Font = new Font("맑은 고딕", 9.2f),
             ForeColor = TextSecondary,
             Location = new Point(78, 45),

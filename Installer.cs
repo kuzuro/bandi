@@ -1,13 +1,13 @@
 namespace Bandi;
 
 /// <summary>
-/// 고정 설치 경로(Program Files\Bandi) 관련 공통 로직
+/// 고정 설치 경로(Program Files\bandi) 관련 공통 로직
 /// </summary>
 internal static class Installer
 {
     public static string FixedInstallDir => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-        "Bandi");
+        "bandi");
 
     /// <summary>
     /// 현재 프로세스가 고정 설치 경로에서 실행 중인지 확인한다.

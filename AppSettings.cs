@@ -9,7 +9,7 @@ internal sealed class AppSettings
 {
     private static readonly string SettingsDir = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-        "Bandi");
+        "bandi");
 
     private static readonly string SettingsFile = Path.Combine(SettingsDir, "settings.json");
 
@@ -48,11 +48,11 @@ internal sealed class AppSettings
     /// <summary>가운데 클릭 파동 색상(기본: 초록색)</summary>
     public int MiddleClickColorArgb { get; set; } = Color.FromArgb(255, 55, 185, 100).ToArgb();
 
-    /// <summary>Bandi 실행 중 적용할 시스템 커서 크기(32~256, 기본 32)</summary>
+    /// <summary>bandi 실행 중 적용할 시스템 커서 크기(32~256, 기본 32)</summary>
     public int CursorBaseSize { get; set; } = CursorSizeManager.DefaultSize;
 
     /// <summary>
-    /// Bandi가 커서 크기를 바꾸기 전 사용자의 원래 커서 크기.
+    /// bandi가 커서 크기를 바꾸기 전 사용자의 원래 커서 크기.
     /// 종료 시 이 값으로 복원하며, 비정상 종료 후 재실행 시에도 원래 값을 잃지 않도록 파일에 보관한다.
     /// </summary>
     public int? OriginalCursorSize { get; set; }

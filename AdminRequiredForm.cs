@@ -19,7 +19,7 @@ internal sealed class AdminRequiredForm : Form
 
         Icon? appIcon = Icon.ExtractAssociatedIcon(Environment.ProcessPath ?? string.Empty);
 
-        Text = "Bandi - 관리자 권한 필요";
+        Text = "bandi - 관리자 권한 필요";
         Icon = appIcon;
         FormBorderStyle = FormBorderStyle.FixedDialog;
         MaximizeBox = false;
@@ -203,7 +203,7 @@ internal sealed class AdminRequiredForm : Form
             using var subFont = UiScaling.PaintFont(9.5f);
             using var titleBrush = new SolidBrush(TextPrimary);
 
-            g.DrawString("실행 방법 예시:  Bandi.exe 마우스 우클릭 → [관리자 권한으로 실행]", stepFont, titleBrush, 16, 14);
+            g.DrawString("실행 방법 예시:  bandi.exe 마우스 우클릭 → [관리자 권한으로 실행]", stepFont, titleBrush, 16, 14);
 
             // 좌측: 실행 파일 아이콘 모형
             var fileBox = new Rectangle(26, 62, 120, 114);
@@ -220,7 +220,7 @@ internal sealed class AdminRequiredForm : Form
             }
 
             using var fileFont = UiScaling.PaintFont(9.5f, FontStyle.Bold);
-            g.DrawString("Bandi.exe", fileFont, titleBrush, 52, 146);
+            g.DrawString("bandi.exe", fileFont, titleBrush, 52, 146);
 
             // 1. 우클릭 배지
             using (var badgeBrush = new SolidBrush(Color.FromArgb(255, 110, 40)))

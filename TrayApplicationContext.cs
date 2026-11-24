@@ -64,7 +64,7 @@ internal sealed class TrayApplicationContext : ApplicationContext
         _trayIcon = new NotifyIcon
         {
             Icon = _activeIcon,
-            Text = "Bandi - 마우스 강조기",
+            Text = "bandi - 마우스 강조기",
             ContextMenuStrip = menu,
             Visible = true
         };
@@ -104,7 +104,7 @@ internal sealed class TrayApplicationContext : ApplicationContext
             _hotkeyFailureNotified = true;
             _trayIcon.ShowBalloonTip(
                 5000,
-                "Bandi",
+                "bandi",
                 "Ctrl+Shift+H 단축키를 다른 프로그램이 사용 중이라 등록하지 못했습니다. 트레이 아이콘 클릭으로 켜고 끌 수 있습니다.",
                 ToolTipIcon.Warning);
         }
@@ -119,13 +119,13 @@ internal sealed class TrayApplicationContext : ApplicationContext
             _overlayForm.StartOverlay();
             _overlayForm.RequestRedraw();
             _trayIcon.Icon = _activeIcon;
-            _trayIcon.Text = "Bandi - 마우스 강조기 (켜짐)";
+            _trayIcon.Text = "bandi - 마우스 강조기 (켜짐)";
         }
         else
         {
             _overlayForm.StopOverlay();
             _trayIcon.Icon = _inactiveIcon;
-            _trayIcon.Text = "Bandi - 마우스 강조기 (꺼짐)";
+            _trayIcon.Text = "bandi - 마우스 강조기 (꺼짐)";
         }
     }
 
@@ -173,7 +173,7 @@ internal sealed class TrayApplicationContext : ApplicationContext
         {
             MessageBox.Show(
                 $"자동 실행 설정 변경에 실패했습니다.\n{error}",
-                "Bandi",
+                "bandi",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
         }

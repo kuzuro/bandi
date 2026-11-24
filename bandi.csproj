@@ -7,15 +7,15 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <AssemblyName>Bandi</AssemblyName>
+    <AssemblyName>bandi</AssemblyName>
     <RootNamespace>Bandi</RootNamespace>
     <ApplicationIcon>AppIcon.ico</ApplicationIcon>
 
     <!-- exe 속성(자세히) 탭에 표시되는 정보. 릴리스마다 Version을 올린다. -->
     <Version>1.0.0</Version>
-    <Product>Bandi</Product>
-    <Description>Bandi - 마우스 커서 강조 도구</Description>
-    <Copyright>Copyright (c) 2026 Bandi contributors</Copyright>
+    <Product>bandi</Product>
+    <Description>bandi - 마우스 커서 강조 도구</Description>
+    <Copyright>Copyright (c) 2026 bandi contributors</Copyright>
   </PropertyGroup>
 
   <!--

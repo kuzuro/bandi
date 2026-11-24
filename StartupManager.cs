@@ -42,7 +42,7 @@ internal static class StartupManager
 
         // /SC ONLOGON으로 만들면 작업 스케줄러 기본값(배터리 사용 시 시작 안 함, 3일 후 강제 종료,
         // 낮은 우선순위)이 적용되므로, 설정을 명시한 XML로 등록한다.
-        string xmlPath = Path.Combine(Path.GetTempPath(), $"Bandi_task_{Guid.NewGuid():N}.xml");
+        string xmlPath = Path.Combine(Path.GetTempPath(), $"bandi_task_{Guid.NewGuid():N}.xml");
         try
         {
             File.WriteAllText(xmlPath, BuildTaskXml(exePath), Encoding.Unicode);
@@ -68,7 +68,7 @@ internal static class StartupManager
             <?xml version="1.0" encoding="UTF-16"?>
             <Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
               <RegistrationInfo>
-                <Description>Bandi 마우스 강조 도구 자동 실행</Description>
+                <Description>bandi 마우스 강조 도구 자동 실행</Description>
               </RegistrationInfo>
               <Triggers>
                 <LogonTrigger>

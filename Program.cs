@@ -44,8 +44,8 @@ internal static class Program
             _singleInstanceMutex.Dispose();
             _singleInstanceMutex = null;
             MessageBox.Show(
-                "Bandi가 이미 시스템 트레이에서 실행 중입니다.",
-                "Bandi",
+                "bandi가 이미 시스템 트레이에서 실행 중입니다.",
+                "bandi",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
             return;

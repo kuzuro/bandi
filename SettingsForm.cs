@@ -79,7 +79,7 @@ internal sealed class SettingsForm : Form
         _onPreviewRectChanged = onPreviewRectChanged;
         LoadDraftFromSettings();
 
-        Text = "Bandi 설정";
+        Text = "bandi 설정";
         Icon = appIcon ?? Icon.ExtractAssociatedIcon(Environment.ProcessPath ?? string.Empty);
         FormBorderStyle = FormBorderStyle.FixedSingle;
         MaximizeBox = false;
@@ -370,8 +370,8 @@ internal sealed class SettingsForm : Form
     private void InstallToProgramFiles()
     {
         DialogResult confirm = MessageBox.Show(
-            $"Bandi를 아래 경로에 설치하고 다시 실행할까요?\n\n{Installer.FixedInstallDir}",
-            "Bandi - PC에 설치",
+            $"bandi를 아래 경로에 설치하고 다시 실행할까요?\n\n{Installer.FixedInstallDir}",
+            "bandi - PC에 설치",
             MessageBoxButtons.YesNo,
             MessageBoxIcon.Question);
 
@@ -381,7 +381,7 @@ internal sealed class SettingsForm : Form
         {
             MessageBox.Show(
                 $"설치 중 오류가 발생했습니다.\n{installError}",
-                "Bandi - 설치 오류",
+                "bandi - 설치 오류",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
             return;
@@ -410,7 +410,7 @@ internal sealed class SettingsForm : Form
         {
             MessageBox.Show(
                 $"설치 중 오류가 발생했습니다.\n{ex.Message}",
-                "Bandi - 설치 오류",
+                "bandi - 설치 오류",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
         }
