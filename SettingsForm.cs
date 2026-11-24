@@ -72,6 +72,8 @@ internal sealed class SettingsForm : Form
         Action<Rectangle?>? onPreviewRectChanged = null,
         Icon? appIcon = null)
     {
+        UiScaling.BeginLayout(this);
+
         _settings = settings;
         _onSettingsChanged = onSettingsChanged;
         _onPreviewRectChanged = onPreviewRectChanged;
@@ -306,6 +308,8 @@ internal sealed class SettingsForm : Form
         SizeChanged += (_, _) => NotifyPreviewBounds();
 
         UpdatePreview();
+
+        UiScaling.EndLayout(this);
     }
 
     private void NotifyPreviewBounds()
@@ -882,7 +886,11 @@ internal sealed class SettingsForm : Form
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            var trackRect = new Rectangle(1, 1, Width - 3, Height - 3);
+            SizeF size = UiScaling.ApplyPaintScale(this, g);
+            int w = (int)Math.Round(size.Width);
+            int h = (int)Math.Round(size.Height);
+
+            var trackRect = new Rectangle(1, 1, w - 3, h - 3);
             using var path = new GraphicsPath();
             int d = trackRect.Height;
             path.AddArc(trackRect.X, trackRect.Y, d, d, 90, 180);
@@ -893,7 +901,7 @@ internal sealed class SettingsForm : Form
             {
                 using var fill = new SolidBrush(AccentBlue);
                 g.FillPath(fill, path);
-                g.FillEllipse(Brushes.White, Width - 18, 4, 14, 14);
+                g.FillEllipse(Brushes.White, w - 18, 4, 14, 14);
             }
             else
             {
@@ -942,20 +950,21 @@ internal sealed class SettingsForm : Form
         {
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
+            SizeF size = UiScaling.ApplyPaintScale(this, g);
 
             if (_selected)
             {
                 using var ringPen = new Pen(AccentBlue, 2f);
-                g.DrawEllipse(ringPen, 2, 2, Width - 5, Height - 5);
+                g.DrawEllipse(ringPen, 2, 2, size.Width - 5, size.Height - 5);
             }
             else if (_hovered)
             {
                 using var hoverPen = new Pen(Color.FromArgb(180, 180, 180), 1.5f);
-                g.DrawEllipse(hoverPen, 2, 2, Width - 5, Height - 5);
+                g.DrawEllipse(hoverPen, 2, 2, size.Width - 5, size.Height - 5);
             }
 
             using var brush = new SolidBrush(CircleColor);
-            g.FillEllipse(brush, 5, 5, Width - 11, Height - 11);
+            g.FillEllipse(brush, 5, 5, size.Width - 11, size.Height - 11);
         }
     }
 
@@ -1064,7 +1073,8 @@ internal sealed class SettingsForm : Form
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            var rect = new Rectangle(0, 0, Width - 1, Height - 1);
+            SizeF size = UiScaling.ApplyPaintScale(this, g);
+            var rect = new Rectangle(0, 0, (int)Math.Round(size.Width) - 1, (int)Math.Round(size.Height) - 1);
             using var bgPath = new GraphicsPath();
             int d = 8;
             bgPath.AddArc(rect.X, rect.Y, d, d, 180, 90);

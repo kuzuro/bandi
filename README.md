@@ -22,6 +22,14 @@
 - [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0)
 - **관리자 권한**: 관리자 권한으로 실행 중인 창 위에서도 마우스를 감지하고, 작업 스케줄러에 최고 권한으로 자동 실행을 등록하며, Program Files에 설치하기 위해 필요합니다
 
+## 다운로드
+
+[Releases](../../releases) 페이지에서 최신 `Bandi.exe`를 받으세요. 설치 파일 없이 exe 하나로 동작합니다.
+
+> **"Windows의 PC 보호" 경고가 뜨는 경우**
+> 코드 서명 인증서가 없는 개인 프로젝트라 처음 실행할 때 SmartScreen 경고가 나올 수 있습니다.
+> **추가 정보 → 실행**을 누르면 됩니다. 소스 코드는 이 저장소에 모두 공개되어 있으며 직접 빌드할 수도 있습니다.
+
 ## 사용 방법
 
 1. `Bandi.exe`를 관리자 권한으로 실행합니다.
@@ -48,6 +56,8 @@ dotnet build
 # 배포용 단일 실행 파일 (결과: publish\Bandi.exe)
 dotnet publish -p:PublishProfile=win-x64
 ```
+
+릴리스 빌드는 디버그 정보를 exe 안에 포함하고, 빌드한 PC의 폴더 경로가 남지 않도록 처리되어 있습니다. 새 버전을 낼 때는 `Bandi.csproj`의 `Version`을 올리세요.
 
 ## 제거
 

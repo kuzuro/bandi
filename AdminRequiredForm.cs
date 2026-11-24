@@ -15,6 +15,8 @@ internal sealed class AdminRequiredForm : Form
 
     public AdminRequiredForm()
     {
+        UiScaling.BeginLayout(this);
+
         Icon? appIcon = Icon.ExtractAssociatedIcon(Environment.ProcessPath ?? string.Empty);
 
         Text = "Bandi - 관리자 권한 필요";
@@ -46,11 +48,11 @@ internal sealed class AdminRequiredForm : Form
 
         Controls.Add(new Label
         {
-            Text = "시스템 커서 크기 변경 및 자동 실행 등록을 위해 관리자 권한이 필요합니다.",
+            Text = "커서 크기 변경과 자동 실행 등록에 관리자 권한이 필요합니다.",
             Font = new Font("맑은 고딕", 9.6f),
             ForeColor = TextSecondary,
             Location = new Point(78, 46),
-            Size = new Size(460, 24)
+            Size = new Size(460, 36)
         });
 
         // 실행 방법 예시 카드
@@ -94,6 +96,8 @@ internal sealed class AdminRequiredForm : Form
 
         AcceptButton = btnClose;
         CancelButton = btnClose;
+
+        UiScaling.EndLayout(this);
     }
 
     private void TryRestartAsAdmin()
@@ -133,18 +137,22 @@ internal sealed class AdminRequiredForm : Form
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            using var path = new GraphicsPath();
-            float w = Width - 4f;
-            float h = Height - 4f;
-            float cx = Width / 2f;
+            SizeF size = UiScaling.ApplyPaintScale(this, g);
+            float width = size.Width;
+            float height = size.Height;
 
-            path.AddLine(cx, 3f, Width - 5f, 8f);
-            path.AddBezier(Width - 5f, 8f, Width - 4f, h * 0.62f, cx + w * 0.25f, h * 0.88f, cx, Height - 3f);
-            path.AddBezier(cx, Height - 3f, cx - w * 0.25f, h * 0.88f, 4f, h * 0.62f, 5f, 8f);
+            using var path = new GraphicsPath();
+            float w = width - 4f;
+            float h = height - 4f;
+            float cx = width / 2f;
+
+            path.AddLine(cx, 3f, width - 5f, 8f);
+            path.AddBezier(width - 5f, 8f, width - 4f, h * 0.62f, cx + w * 0.25f, h * 0.88f, cx, height - 3f);
+            path.AddBezier(cx, height - 3f, cx - w * 0.25f, h * 0.88f, 4f, h * 0.62f, 5f, 8f);
             path.CloseFigure();
 
             using var grad = new LinearGradientBrush(
-                new RectangleF(0, 0, Width, Height),
+                new RectangleF(0, 0, width, height),
                 Color.FromArgb(40, 140, 230),
                 AccentBlue,
                 LinearGradientMode.Vertical);
@@ -184,14 +192,15 @@ internal sealed class AdminRequiredForm : Form
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            SizeF size = UiScaling.ApplyPaintScale(this, g);
 
             using (var border = new Pen(Color.FromArgb(226, 228, 232), 1f))
             {
-                g.DrawRectangle(border, 0, 0, Width - 1, Height - 1);
+                g.DrawRectangle(border, 0, 0, size.Width - 1, size.Height - 1);
             }
 
-            using var stepFont = new Font("맑은 고딕", 10f, FontStyle.Bold);
-            using var subFont = new Font("맑은 고딕", 9.5f);
+            using var stepFont = UiScaling.PaintFont(10f, FontStyle.Bold);
+            using var subFont = UiScaling.PaintFont(9.5f);
             using var titleBrush = new SolidBrush(TextPrimary);
 
             g.DrawString("실행 방법 예시:  Bandi.exe 마우스 우클릭 → [관리자 권한으로 실행]", stepFont, titleBrush, 16, 14);
@@ -210,12 +219,12 @@ internal sealed class AdminRequiredForm : Form
                 g.DrawImage(_appIconBitmap, 54, 74, 64, 64);
             }
 
-            using var fileFont = new Font("맑은 고딕", 9.5f, FontStyle.Bold);
+            using var fileFont = UiScaling.PaintFont(9.5f, FontStyle.Bold);
             g.DrawString("Bandi.exe", fileFont, titleBrush, 52, 146);
 
             // 1. 우클릭 배지
             using (var badgeBrush = new SolidBrush(Color.FromArgb(255, 110, 40)))
-            using (var badgeFont = new Font("맑은 고딕", 9f, FontStyle.Bold))
+            using (var badgeFont = UiScaling.PaintFont(9f, FontStyle.Bold))
             {
                 g.FillRectangle(badgeBrush, 36, 188, 100, 26);
                 g.DrawString("1. 우클릭", badgeFont, Brushes.White, 55, 192);
@@ -266,7 +275,7 @@ internal sealed class AdminRequiredForm : Form
                     using var shieldBrush = new SolidBrush(AccentBlue);
                     g.FillPolygon(shieldBrush, shield);
 
-                    using var boldFont = new Font("맑은 고딕", 10f, FontStyle.Bold);
+                    using var boldFont = UiScaling.PaintFont(10f, FontStyle.Bold);
                     using var accentBrush = new SolidBrush(AccentBlue);
                     g.DrawString(items[i], boldFont, accentBrush, rowRect.X + 36, rowRect.Y + 9);
                 }
@@ -280,7 +289,7 @@ internal sealed class AdminRequiredForm : Form
 
             // 2. 클릭 배지
             using (var step2Brush = new SolidBrush(AccentBlue))
-            using (var badgeFont = new Font("맑은 고딕", 8.8f, FontStyle.Bold))
+            using (var badgeFont = UiScaling.PaintFont(8.8f, FontStyle.Bold))
             {
                 g.FillRectangle(step2Brush, 412, 66, 72, 24);
                 g.DrawString("2. 클릭", badgeFont, Brushes.White, 424, 69);

@@ -1,0 +1,10 @@
+# 줄바꿈 통일: 저장소에는 LF, Windows 체크아웃 시 CRLF
+* text=auto
+*.cs text eol=crlf
+*.csproj text eol=crlf
+*.pubxml text eol=crlf
+
+# 바이너리 파일
+*.ico binary
+*.png binary
+*.webp binary

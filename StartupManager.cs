@@ -1,4 +1,7 @@
 using System.Diagnostics;
+using System.Security;
+using System.Security.Principal;
+using System.Text;
 
 namespace Bandi;
 
@@ -24,6 +27,12 @@ internal static class StartupManager
     public static bool SetEnabled(bool enable, out string? errorMessage, string? customExePath = null)
     {
         errorMessage = null;
+
+        if (!enable)
+        {
+            return Run($"/Delete /TN \"{TaskName}\" /F", out errorMessage);
+        }
+
         string? exePath = customExePath ?? Environment.ProcessPath;
         if (string.IsNullOrWhiteSpace(exePath))
         {
@@ -31,10 +40,70 @@ internal static class StartupManager
             return false;
         }
 
-        string arguments = enable
-            ? $"/Create /TN \"{TaskName}\" /TR \"\\\"{exePath}\\\"\" /SC ONLOGON /RL HIGHEST /F"
-            : $"/Delete /TN \"{TaskName}\" /F";
+        // /SC ONLOGON으로 만들면 작업 스케줄러 기본값(배터리 사용 시 시작 안 함, 3일 후 강제 종료,
+        // 낮은 우선순위)이 적용되므로, 설정을 명시한 XML로 등록한다.
+        string xmlPath = Path.Combine(Path.GetTempPath(), $"Bandi_task_{Guid.NewGuid():N}.xml");
+        try
+        {
+            File.WriteAllText(xmlPath, BuildTaskXml(exePath), Encoding.Unicode);
+            return Run($"/Create /TN \"{TaskName}\" /XML \"{xmlPath}\" /F", out errorMessage);
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            return false;
+        }
+        finally
+        {
+            try { File.Delete(xmlPath); } catch { /* 임시 파일 삭제 실패는 무시 */ }
+        }
+    }
 
+    private static string BuildTaskXml(string exePath)
+    {
+        string userId = SecurityElement.Escape(WindowsIdentity.GetCurrent().Name);
+        string command = SecurityElement.Escape(exePath);
+
+        return $"""
+            <?xml version="1.0" encoding="UTF-16"?>
+            <Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+              <RegistrationInfo>
+                <Description>Bandi 마우스 강조 도구 자동 실행</Description>
+              </RegistrationInfo>
+              <Triggers>
+                <LogonTrigger>
+                  <Enabled>true</Enabled>
+                  <UserId>{userId}</UserId>
+                </LogonTrigger>
+              </Triggers>
+              <Principals>
+                <Principal id="Author">
+                  <UserId>{userId}</UserId>
+                  <LogonType>InteractiveToken</LogonType>
+                  <RunLevel>HighestAvailable</RunLevel>
+                </Principal>
+              </Principals>
+              <Settings>
+                <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+                <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
+                <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
+                <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>
+                <Priority>4</Priority>
+                <AllowHardTerminate>true</AllowHardTerminate>
+                <Enabled>true</Enabled>
+              </Settings>
+              <Actions Context="Author">
+                <Exec>
+                  <Command>{command}</Command>
+                </Exec>
+              </Actions>
+            </Task>
+            """;
+    }
+
+    private static bool Run(string arguments, out string? errorMessage)
+    {
+        errorMessage = null;
         int? exitCode = RunSchtasks(arguments, 5000, out string stderr);
         if (exitCode == 0) return true;
 

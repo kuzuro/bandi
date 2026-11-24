@@ -10,6 +10,22 @@
     <AssemblyName>Bandi</AssemblyName>
     <RootNamespace>Bandi</RootNamespace>
     <ApplicationIcon>AppIcon.ico</ApplicationIcon>
+
+    <!-- exe 속성(자세히) 탭에 표시되는 정보. 릴리스마다 Version을 올린다. -->
+    <Version>1.0.0</Version>
+    <Product>Bandi</Product>
+    <Description>Bandi - 마우스 커서 강조 도구</Description>
+    <Copyright>Copyright (c) 2026 Bandi contributors</Copyright>
+  </PropertyGroup>
+
+  <!--
+    릴리스 빌드에 이 PC의 폴더 경로가 남지 않도록 한다.
+    - PathMap: exe/디버그 정보에 기록되는 소스 및 pdb 경로를 /_/ 로 치환
+    - DebugType embedded: 별도 .pdb 파일 없이 디버그 정보를 exe에 포함 (예외 발생 시 줄 번호 유지)
+  -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <PathMap>$(MSBuildProjectDirectory)=/_/</PathMap>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
 </Project>

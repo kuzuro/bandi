@@ -26,12 +26,15 @@ internal sealed class TrayApplicationContext : ApplicationContext
 
         ApplyCursorSizeOnStartup();
 
+        // schtasks 조회는 수백 ms가 걸릴 수 있으므로 전역 마우스 훅을 켜기 전에 끝낸다.
+        // (훅이 켜진 상태에서 UI 스레드가 막히면 시스템 전체 마우스가 끊기고, 오래 걸리면 Windows가 훅을 제거한다)
+        bool startupEnabled = StartupManager.IsEnabled();
+
         _overlayForm = new OverlayForm(_settings);
 
         _mouseHook = new MouseHook();
         _mouseHook.MouseMoved += pt => _overlayForm.UpdateCursorPosition(pt);
         _mouseHook.MouseClicked += (pt, btn) => _overlayForm.TriggerClick(pt, btn);
-        _mouseHook.Start();
 
         _hotkeyManager = new HotkeyManager();
         _hotkeyManager.ToggleHighlightPressed += () => OnToggleHighlight(null, EventArgs.Empty);
@@ -47,7 +50,7 @@ internal sealed class TrayApplicationContext : ApplicationContext
 
         _startupItem = new ToolStripMenuItem("윈도우 시작 시 자동 실행", null, OnToggleStartup)
         {
-            Checked = StartupManager.IsEnabled()
+            Checked = startupEnabled
         };
 
         var menu = new ContextMenuStrip();
@@ -68,6 +71,9 @@ internal sealed class TrayApplicationContext : ApplicationContext
         _trayIcon.MouseClick += OnTrayMouseClick;
 
         SyncState();
+
+        // 모든 초기화가 끝난 뒤 마지막에 전역 마우스 훅 시작
+        _mouseHook.Start();
     }
 
     private void OnTrayMouseClick(object? sender, MouseEventArgs e)
@@ -144,10 +150,22 @@ internal sealed class TrayApplicationContext : ApplicationContext
         _settingsForm.Show();
     }
 
-    private void OnToggleStartup(object? sender, EventArgs e)
+    private async void OnToggleStartup(object? sender, EventArgs e)
     {
         bool targetState = !_startupItem.Checked;
-        if (StartupManager.SetEnabled(targetState, out string? error))
+
+        // 마우스 훅이 동작 중인 UI 스레드를 막지 않도록 백그라운드에서 실행
+        _startupItem.Enabled = false;
+        (bool ok, string? error) = await Task.Run(() =>
+        {
+            bool result = StartupManager.SetEnabled(targetState, out string? message);
+            return (result, message);
+        });
+
+        if (_cleanedUp) return;
+        _startupItem.Enabled = true;
+
+        if (ok)
         {
             _startupItem.Checked = targetState;
         }

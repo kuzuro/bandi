@@ -14,6 +14,8 @@ internal sealed class ExitGuideForm : Form
 
     public ExitGuideForm()
     {
+        UiScaling.BeginLayout(this);
+
         Icon? appIcon = Icon.ExtractAssociatedIcon(Environment.ProcessPath ?? string.Empty);
 
         Text = "Bandi - 사용 및 종료 방법";
@@ -46,11 +48,11 @@ internal sealed class ExitGuideForm : Form
 
         Controls.Add(new Label
         {
-            Text = "화면 우측 하단(작업 표시줄)의 Bandi 아이콘을 통해 설정하거나 종료할 수 있습니다.",
+            Text = "작업 표시줄 오른쪽 아래 Bandi 아이콘으로 설정하거나 종료할 수 있습니다.",
             Font = new Font("맑은 고딕", 9.2f),
             ForeColor = TextSecondary,
             Location = new Point(78, 45),
-            Size = new Size(462, 24)
+            Size = new Size(462, 36)
         });
 
         var guideCard = new TrayGuidePanel(appIcon)
@@ -77,6 +79,8 @@ internal sealed class ExitGuideForm : Form
 
         AcceptButton = btnStart;
         CancelButton = btnStart;
+
+        UiScaling.EndLayout(this);
     }
 
     /// <summary>
@@ -103,15 +107,16 @@ internal sealed class ExitGuideForm : Form
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            SizeF size = UiScaling.ApplyPaintScale(this, g);
 
             using (var border = new Pen(Color.FromArgb(226, 228, 232), 1f))
             {
-                g.DrawRectangle(border, 0, 0, Width - 1, Height - 1);
+                g.DrawRectangle(border, 0, 0, size.Width - 1, size.Height - 1);
             }
 
-            using var stepFont = new Font("맑은 고딕", 10f, FontStyle.Bold);
-            using var menuFont = new Font("맑은 고딕", 9.5f);
-            using var tipFont = new Font("맑은 고딕", 8.8f);
+            using var stepFont = UiScaling.PaintFont(10f, FontStyle.Bold);
+            using var menuFont = UiScaling.PaintFont(9.5f);
+            using var tipFont = UiScaling.PaintFont(8.8f);
             using var titleBrush = new SolidBrush(TextPrimary);
             using var subBrush = new SolidBrush(TextSecondary);
 
@@ -142,7 +147,7 @@ internal sealed class ExitGuideForm : Form
                 g.DrawImage(_appIconBitmap, 67, 239, 24, 24);
             }
 
-            using (var clockFont = new Font("맑은 고딕", 8f))
+            using (var clockFont = UiScaling.PaintFont(8f))
             {
                 g.DrawString("오후 7:30", clockFont, subBrush, 116, 235);
                 g.DrawString("2026-11-22", clockFont, subBrush, 112, 251);
@@ -150,7 +155,7 @@ internal sealed class ExitGuideForm : Form
 
             // 1. 우클릭 배지
             using (var badge1 = new SolidBrush(Color.FromArgb(255, 110, 40)))
-            using (var badgeFont = new Font("맑은 고딕", 8.8f, FontStyle.Bold))
+            using (var badgeFont = UiScaling.PaintFont(8.8f, FontStyle.Bold))
             {
                 g.FillRectangle(badge1, 30, 190, 98, 26);
                 g.DrawString("1. 우클릭", badgeFont, Brushes.White, 48, 194);
@@ -196,7 +201,7 @@ internal sealed class ExitGuideForm : Form
                     g.FillRectangle(exitBg, rowRect);
                     g.DrawRectangle(exitPen, rowRect);
 
-                    using var boldFont = new Font("맑은 고딕", 10f, FontStyle.Bold);
+                    using var boldFont = UiScaling.PaintFont(10f, FontStyle.Bold);
                     using var exitBrush = new SolidBrush(Color.FromArgb(195, 35, 45));
                     g.DrawString(items[i], boldFont, exitBrush, rowRect.X + 8, rowRect.Y + 8);
                 }
@@ -210,7 +215,7 @@ internal sealed class ExitGuideForm : Form
 
             // 2. 클릭 배지
             using (var badge2 = new SolidBrush(Color.FromArgb(210, 50, 60)))
-            using (var badgeFont = new Font("맑은 고딕", 8.8f, FontStyle.Bold))
+            using (var badgeFont = UiScaling.PaintFont(8.8f, FontStyle.Bold))
             {
                 g.FillRectangle(badge2, 412, 236, 70, 24);
                 g.DrawString("2. 클릭", badgeFont, Brushes.White, 424, 239);

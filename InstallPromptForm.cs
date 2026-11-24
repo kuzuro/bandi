@@ -22,6 +22,8 @@ internal sealed class InstallPromptForm : Form
 
     public InstallPromptForm()
     {
+        UiScaling.BeginLayout(this);
+
         Icon? appIcon = Icon.ExtractAssociatedIcon(Environment.ProcessPath ?? string.Empty);
 
         Text = "Bandi - 시작 옵션";
@@ -130,6 +132,8 @@ internal sealed class InstallPromptForm : Form
         Controls.Add(btnConfirm);
 
         AcceptButton = btnConfirm;
+
+        UiScaling.EndLayout(this);
     }
 
     private void OnConfirm()
