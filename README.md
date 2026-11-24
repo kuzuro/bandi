@@ -20,17 +20,17 @@
 
 - Windows 10 (2004 이상) 또는 Windows 11, x64
 - [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0)
-- 관리자 권한. 사유는 아래와 같음
+- 관리자 권한. 사유:
   - 관리자 권한으로 실행 중인 창 위에서도 마우스를 감지하기 위해
   - 자동 실행을 최고 권한으로 등록하기 위해
   - Program Files에 설치하기 위해
 
 ## 3. 다운로드
 
-[Releases](../../releases)에서 최신 `Bandi.exe` 다운로드. 설치 파일 없이 exe 하나로 동작함.
+[Releases](../../releases)에서 최신 `Bandi.exe` 다운로드. 설치 파일 없이 exe 단독 동작.
 
 > **"Windows의 PC 보호" 경고 시**: **추가 정보 → 실행** 클릭.
-> 코드 서명 인증서가 없어 발생하는 경고임. 소스 전체 공개, 직접 빌드 가능.
+> 코드 서명 인증서 부재로 인한 경고. 소스 전체 공개, 직접 빌드 가능.
 
 ## 4. 사용법
 
@@ -59,7 +59,7 @@ dotnet build
 dotnet publish -p:PublishProfile=win-x64
 ```
 
-- 릴리스 빌드는 디버그 정보를 exe에 포함하며, 빌드 PC의 경로를 남기지 않음
+- 릴리스 빌드: 디버그 정보 exe 내장, 빌드 PC 경로 미포함
 - 새 버전 배포 시 `Bandi.csproj`의 `Version` 값을 올릴 것
 
 ## 6. 제거
