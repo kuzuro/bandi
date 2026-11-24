@@ -45,7 +45,7 @@
 | 트레이 아이콘 우클릭 | 메뉴 (설정, 자동 실행, 종료) |
 | `Ctrl + Shift + H` | 강조 효과 켜기/끄기 |
 
-설정 저장 위치: `%APPDATA%\Bandi\settings.json`
+설정 파일: `C:\Users\<사용자명>\AppData\Roaming\Bandi\settings.json`
 
 ## 5. 빌드
 
@@ -66,8 +66,9 @@ dotnet publish -p:PublishProfile=win-x64
 
 1. 트레이 메뉴에서 **윈도우 시작 시 자동 실행** 해제
 2. **종료** 클릭. 커서 크기 자동 복원
-3. 설치한 경우 `C:\Program Files\Bandi` 삭제
-4. 설정까지 지우려면 `%APPDATA%\Bandi` 삭제
+3. 프로그램 폴더 삭제 (설치 시): `C:\Program Files\Bandi`
+4. 설정 폴더 삭제: `C:\Users\<사용자명>\AppData\Roaming\Bandi`
+   - 탐색기 주소창에 `%APPDATA%\Bandi` 입력 시 즉시 이동
 
 ## 7. 라이선스
 
