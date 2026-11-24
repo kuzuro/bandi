@@ -46,7 +46,7 @@ internal sealed class AppSettings
     public int RightClickColorArgb { get; set; } = Color.FromArgb(255, 65, 120, 245).ToArgb();
 
     /// <summary>가운데 클릭 파동 색상(기본: 초록색)</summary>
-    public int MiddleClickColorArgb { get; set; } = Color.FromArgb(255, 70, 200, 110).ToArgb();
+    public int MiddleClickColorArgb { get; set; } = Color.FromArgb(255, 55, 185, 100).ToArgb();
 
     /// <summary>Bandi 실행 중 적용할 시스템 커서 크기(32~256, 기본 32)</summary>
     public int CursorBaseSize { get; set; } = CursorSizeManager.DefaultSize;
